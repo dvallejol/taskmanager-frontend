@@ -1,0 +1,58 @@
+<div class="container mt-4">
+  <h2 class="text-center">Gestión de Tareas</h2>
+
+  <!-- Formulario para agregar/editar tareas -->
+  <form [formGroup]="taskForm" (ngSubmit)="addOrUpdateTask()">
+   
+      <div class="input-group mb-3">
+        <input formControlName="title" type="text" class="form-control" placeholder="Título de la tarea">
+        <input formControlName="description" type="text" class="form-control" placeholder="Descripción">
+        <input formControlName="dueDate" type="date" class="form-control">
+        <button type="submit" class="btn btn-primary">{{ editMode ? 'Actualizar' : 'Agregar' }}</button>
+      </div>
+   
+    
+
+    <!-- Mensajes de error -->
+    <div *ngIf="taskForm.controls['title'].invalid && taskForm.controls['title'].touched" class="text-danger">
+      El título debe tener al menos 3 caracteres.
+    </div>
+    <div *ngIf="taskForm.controls['description'].invalid && taskForm.controls['description'].touched" class="text-danger">
+      La descripción debe tener al menos 5 caracteres.
+    </div>
+    <div *ngIf="taskForm.controls['dueDate'].invalid && taskForm.controls['dueDate'].touched" class="text-danger">
+      Debes seleccionar una fecha de vencimiento.
+    </div>
+  </form>
+
+  <!-- Filtro de tareas -->
+  <div class="mb-3">
+    <label for="filter" class="form-label">Filtrar tareas:</label>
+    <select [(ngModel)]="filterStatus" [ngModelOptions]="{standalone: true}" class="form-select">
+      <option value="all">Todas</option>
+      <option value="pending">Pendientes</option>
+      <option value="completed">Completadas</option>
+    </select>
+  </div>
+
+  <!-- Lista de tareas -->
+  <ul class="list-group">
+    <li *ngFor="let task of filteredTasks" class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        <strong [class.text-decoration-line-through]="task.completed">{{ task.title }}</strong> - 
+        <span>{{ task.description }}</span> - 
+        <small class="text-muted">Vence el: {{ task.dueDate | date }}</small>
+      </div>
+      <div>
+        <button (click)="editTask(task)" class="btn btn-sm btn-warning me-2">Editar</button>
+        <button (click)="toggleTaskCompletion(task)" class="btn btn-sm btn-success me-2">
+          {{ task.completed ? 'Desmarcar' : 'Completar' }}
+        </button>
+        <button (click)="deleteTask(task.id)" class="btn btn-sm btn-danger">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+
+  <!-- Contador de tareas pendientes -->
+  <h3 class="text-center mt-3">Tareas Pendientes: {{ pendingTasksCount }}</h3>
+</div>

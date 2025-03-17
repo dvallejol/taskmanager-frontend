@@ -1,12 +1,20 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NgFor } from '@angular/common'; // ✅ Importar NgFor
+import { TaskListComponent } from './task-list/task-list.component';
+import { CommonModule } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  //imports: [RouterOutlet],
+  standalone: true, // ✅ Esto indica que es un componente standalone
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
+  imports: [CommonModule, TaskListComponent] // ✅ 
 })
-export class AppComponent {
-  title = 'DoctorAppFrontend';
+
+export class AppComponent  {
+  titulo : string = 'Gestion de tareas';
+  
 }
