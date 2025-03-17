@@ -1,19 +1,26 @@
 <div class="container mt-4">
   <h2 class="text-center">Gestión de Tareas</h2>
 
-  <!-- Formulario para agregar/editar tareas -->
+  <!-- 📌 Formulario para agregar o editar tareas -->
   <form [formGroup]="taskForm" (ngSubmit)="addOrUpdateTask()">
    
-      <div class="input-group mb-3">
-        <input formControlName="title" type="text" class="form-control" placeholder="Título de la tarea">
-        <input formControlName="description" type="text" class="form-control" placeholder="Descripción">
-        <input formControlName="dueDate" type="date" class="form-control">
-        <button type="submit" class="btn btn-primary">{{ editMode ? 'Actualizar' : 'Agregar' }}</button>
-      </div>
+    <div class="input-group mb-3">
+      <!-- 📌 Campo para el título de la tarea -->
+      <input formControlName="title" type="text" class="form-control" placeholder="Título de la tarea">
+      
+      <!-- 📌 Campo para la descripción de la tarea -->
+      <input formControlName="description" type="text" class="form-control" placeholder="Descripción">
+      
+      <!-- 📌 Campo para la fecha de vencimiento -->
+      <input formControlName="dueDate" type="date" class="form-control">
+      
+      <!-- 📌 Botón para agregar o actualizar la tarea -->
+      <button type="submit" class="btn btn-primary">
+        {{ editMode ? 'Actualizar' : 'Agregar' }}
+      </button>
+    </div>
    
-    
-
-    <!-- Mensajes de error -->
+    <!-- 📌 Mensajes de error para validaciones -->
     <div *ngIf="taskForm.controls['title'].invalid && taskForm.controls['title'].touched" class="text-danger">
       El título debe tener al menos 3 caracteres.
     </div>
@@ -25,7 +32,7 @@
     </div>
   </form>
 
-  <!-- Filtro de tareas -->
+  <!-- 📌 Filtro de tareas por estado -->
   <div class="mb-3">
     <label for="filter" class="form-label">Filtrar tareas:</label>
     <select [(ngModel)]="filterStatus" [ngModelOptions]="{standalone: true}" class="form-select">
@@ -35,24 +42,37 @@
     </select>
   </div>
 
-  <!-- Lista de tareas -->
+  <!-- 📌 Lista de tareas -->
   <ul class="list-group">
+    <!-- 🔹 Iteramos sobre la lista de tareas filtradas -->
     <li *ngFor="let task of filteredTasks" class="list-group-item d-flex justify-content-between align-items-center">
+      
+      <!-- 📌 Información de la tarea -->
       <div>
-        <strong [class.text-decoration-line-through]="task.completed">{{ task.title }}</strong> - 
+        <strong [class.text-decoration-line-through]="task.completed">
+          {{ task.title }}
+        </strong> - 
         <span>{{ task.description }}</span> - 
         <small class="text-muted">Vence el: {{ task.dueDate | date }}</small>
       </div>
+
+      <!-- 📌 Acciones para cada tarea -->
       <div>
+        <!-- 🔹 Botón para editar la tarea -->
         <button (click)="editTask(task)" class="btn btn-sm btn-warning me-2">Editar</button>
+        
+        <!-- 🔹 Botón para marcar o desmarcar como completada -->
         <button (click)="toggleTaskCompletion(task)" class="btn btn-sm btn-success me-2">
           {{ task.completed ? 'Desmarcar' : 'Completar' }}
         </button>
+
+        <!-- 🔹 Botón para eliminar la tarea -->
         <button (click)="deleteTask(task.id)" class="btn btn-sm btn-danger">Eliminar</button>
       </div>
+
     </li>
   </ul>
 
-  <!-- Contador de tareas pendientes -->
+  <!-- 📌 Contador de tareas pendientes -->
   <h3 class="text-center mt-3">Tareas Pendientes: {{ pendingTasksCount }}</h3>
 </div>
