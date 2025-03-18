@@ -15,7 +15,7 @@ export interface Task {
   providedIn: 'root' // 📌 Hace que este servicio esté disponible en toda la aplicación
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:5146/api/Task'; // 📌 URL de la API en .NET (ajustar según configuración)
+  private apiUrl = 'https://taskmanager-backend-2-h0am.onrender.com/api/task';              //'http://localhost:5146/api/Task'; // 📌 URL de la API en .NET (ajustar según configuración)
 
   constructor(private http: HttpClient) {}
 
